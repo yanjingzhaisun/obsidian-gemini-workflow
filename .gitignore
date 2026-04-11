@@ -1,0 +1,14 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# Environment
+.env
+
+# Gemini CLI
+.gemini/tmp/
+
+# OS-specific
+.DS_Store
+Thumbs.db
