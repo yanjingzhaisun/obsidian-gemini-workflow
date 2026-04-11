@@ -1,0 +1,14 @@
+{
+  "session": {
+    "auto_save": true,
+    "persistence": "enabled"
+  },
+  "execution": {
+    "auto_continue": true,
+    "max_steps": 20
+  },
+  "context": {
+    "include_patterns": ["**/*.md"],
+    "exclude_patterns": [".obsidian/**", "**/node_modules/**"]
+  }
+}
