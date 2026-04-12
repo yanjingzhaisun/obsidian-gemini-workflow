@@ -1,4 +1,4 @@
-# startup.ps1 - PowerShell startup script for Gemini Obsidian Bridge
+# startup.ps1 - Launcher for Gemini Obsidian Bridge
 
 # 1. Load .env file
 if (Test-Path ".env") {
@@ -20,9 +20,17 @@ if (Test-Path ".venv\Scripts\Activate.ps1") {
     Write-Warning "Virtual environment not found. Run 'uv venv' first."
 }
 
-# 3. Aliases
+# 3. Gemini Command
+function Start-GeminiObsidian {
+    Write-Host "Launching Gemini Obsidian Bridge..." -ForegroundColor Cyan
+    gemini $args
+}
+
+# 4. Aliases
+Set-Alias g-chat Start-GeminiObsidian
 function g-obsidian { uv run python scripts/obsidian_client.py @args }
 function g-mocs { uv run python scripts/list_mocs.py @args }
 function g-validate { uv run python scripts/validate_frontmatter.py @args }
 
 Write-Host "Gemini Obsidian Bridge environment loaded." -ForegroundColor Cyan
+Write-Host "Use 'g-chat' to start a session or 'g-obsidian' to run the client." -ForegroundColor Cyan
