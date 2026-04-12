@@ -34,3 +34,6 @@ function g-validate { uv run python scripts/validate_frontmatter.py @args }
 
 Write-Host "Gemini Obsidian Bridge environment loaded." -ForegroundColor Cyan
 Write-Host "Use 'g-chat' to start a session or 'g-obsidian' to run the client." -ForegroundColor Cyan
+
+# 5. Auto-start Gemini
+Start-GeminiObsidian

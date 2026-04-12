@@ -70,8 +70,9 @@ def run_validation():
     invalid_files = []
     
     for md_file in md_files:
-        # Skip files in hidden folders (like .obsidian)
-        if any(part.startswith('.') for part in md_file.relative_to(vault_path).parts):
+        # Skip files in hidden folders (like .obsidian) or the templates folder
+        rel_path = md_file.relative_to(vault_path)
+        if any(part.startswith('.') for part in rel_path.parts) or rel_path.parts[0] == 'templates':
             continue
             
         is_valid, errors = validate_frontmatter(md_file)

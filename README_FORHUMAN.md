@@ -10,21 +10,18 @@ This repository is **separate** from your Obsidian vault.
 3.  **Reproducibility**: We use `uv` and Python to make sure these tools work exactly the same on any computer you own.
 
 ## How to use it
-1.  **Connect to your Vault**: Open the `.env` file and make sure it points to your Obsidian folder.
-2.  **Turn on the Bridge**:
-    *   **On Windows**: Open PowerShell in this folder and type `.\startup.ps1`.
-    *   **On Linux**: Open Fish and type `source startup.fish`.
-3.  **Run a command**:
-    *   `g-validate`: "Did I forget to add tags to that new note?" This will tell you.
-    *   `g-mocs`: "What are my main topics again?" This lists your Maps of Content.
-    *   `g-obsidian`: "Open this note for me." Direct control from your terminal.
+1.  **Connect to your Vault**: Copy `.env.example` to `.env` and fill in the absolute path to your Obsidian vault.
+2.  **One-Click Start**:
+    - **On Linux (Fish)**: Just run `./startup.fish`.
+    - **On Windows (PowerShell)**: Just run `.\startup.ps1`.
+    That's it! Gemini CLI will start, and it will already have access to your vault notes.
 
 ## Smooth Cross-Computer Setup
-When you clone this bridge repository to a new machine:
-1.  **Install `uv`**: The only system-wide requirement.
-2.  **Run `uv sync`**: This sets up the Python environment exactly like the original.
-3.  **Setup `.env`**: Copy `.env.example` to `.env` and fill in the local path to your vault.
-4.  **Source the Startup Script**: Use `startup.ps1` or `startup.fish`. Your aliases and environment will be ready instantly.
+When you switch computers:
+1.  **Install `uv`**: The only global requirement.
+2.  **Run `uv sync`**: Installs all tools.
+3.  **Update `.env`**: Point it to the vault path on your new machine.
+4.  **Run the script**: `./startup.fish` (or `.\startup.ps1`). No settings files need changing.
 
 ## Roadmap
 - [x] **Phase 1-2**: Foundation & Core tools (MOCs, Metadata).

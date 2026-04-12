@@ -35,3 +35,8 @@ abbr -a g-chat "gemini-obsidian"
 
 echo "Gemini Obsidian Bridge environment loaded."
 echo "Use 'g-chat' to start a session or 'g-obsidian' to run the client."
+
+# 5. Auto-start Gemini if not sourced
+if not status is-interactive
+    gemini
+end

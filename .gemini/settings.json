@@ -9,6 +9,14 @@
   },
   "context": {
     "include_patterns": ["**/*.md"],
-    "exclude_patterns": [".obsidian/**", "**/node_modules/**"]
+    "exclude_patterns": [".obsidian/**", "**/node_modules/**"],
+    "includeDirectories": [
+      "${OBSIDIAN_VAULT_PATH}"
+    ]
+  },
+  "tools": {
+    "sandboxAllowedPaths": [
+      "${OBSIDIAN_VAULT_PATH}"
+    ]
   }
 }
