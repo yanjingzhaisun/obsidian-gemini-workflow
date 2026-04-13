@@ -61,48 +61,31 @@ class LinkGenerator:
 
             original_content = content
             
-            # Find references to OTHER permanent notes
+            # Separate frontmatter from body
+            frontmatter_match = re.search(r'^---\s*\r?\n.*?\n---\s*(?:\r?\n|$)', content, re.DOTALL)
+            if frontmatter_match:
+                frontmatter = content[:frontmatter_match.end()]
+                body = content[frontmatter_match.end():]
+            else:
+                frontmatter = ""
+                body = content
+            
+            # Find references to OTHER permanent notes in the body
             for other_title in titles_to_match:
                 if title == other_title:
                     continue # Don't link to itself
                 
-                # Regex logic:
-                # - Match `other_title` exactly.
-                # - Negative lookbehind/lookahead to avoid matching inside existing [[links]]
-                # - Using re.escape to handle titles with special regex chars.
-                # - This simple regex might not handle all edge cases perfectly (like markdown links [text](url)),
-                #   but covers standard plain text well.
-                # Note: For Chinese characters, \b might not work as expected at word boundaries.
-                # A safer approach for mixed CJK/English is to just check for negative lookbehind `(?<!\[\[)` and lookahead `(?!\]\])`
-                
                 escaped_title = re.escape(other_title)
-                # We want to replace occurrences of the title that are NOT already inside [[ ]]
-                # This regex looks for the title, ensuring it's not preceded by [[ or followed by ]]
-                # It also tries to avoid matching inside standard markdown links [like this](url) by checking for surrounding brackets, but that's complex.
-                # We'll use a simpler heuristic: avoid if inside [[ ]]
-                
-                # Pattern: Find the title, but only if not surrounded by [[ and ]]
-                # This uses a lookaround trick: we match the text if we can't find [[ right before it.
-                # Since variable length lookbehinds are not supported in standard python re, we use a simpler approach:
-                # Find all occurrences, check context, replace.
-                
-                # To simplify and ensure safety, we use re.sub with a custom function
-                def replacer(match):
-                    # We check the entire string to see if the match is inside [[ ]]
-                    # A more robust way is to just replace, but Obsidian handles multiple [[[[...]]]] gracefully by showing it weirdly.
-                    return f"[[{other_title}]]"
-                
-                # Pattern to match the title not preceded by [[ and not followed by ]]
-                # This is an approximation.
                 pattern = rf'(?<!\[\[)(?<!\[){escaped_title}(?!\]\])(?!\])'
                 
                 try:
-                    content, num_subs = re.subn(pattern, rf'[[{other_title}]]', content)
+                    body, num_subs = re.subn(pattern, rf'[[{other_title}]]', body)
                     if num_subs > 0:
                         links_added += num_subs
                 except Exception as e:
                     print(f"Regex error on title '{other_title}': {e}")
 
+            content = frontmatter + body
             if content != original_content:
                 try:
                     with open(target_path, 'w', encoding='utf-8') as f:
