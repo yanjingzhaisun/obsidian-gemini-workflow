@@ -3,8 +3,10 @@ import re
 import sys
 from pathlib import Path
 
-# Add root scripts to sys.path to find obsidian_client
-sys.path.append(str(Path(__file__).resolve().parent.parent.parent.parent / "scripts"))
+# Add script directories to find TagAnalyzer and ObsidianClient
+root_dir = Path(__file__).resolve().parents[4]
+sys.path.append(str(root_dir / "scripts"))
+sys.path.append(str(root_dir / ".gemini/skills/obsidian-tag-cleanup/scripts"))
 
 from analyze_tags import TagAnalyzer
 from obsidian_client import ObsidianClient

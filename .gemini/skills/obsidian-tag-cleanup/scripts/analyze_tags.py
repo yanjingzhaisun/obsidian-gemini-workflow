@@ -4,8 +4,12 @@ import yaml
 import sys
 from pathlib import Path
 
-# Add root scripts to sys.path to find obsidian_client
-sys.path.append(str(Path(__file__).resolve().parent.parent.parent.parent / "scripts"))
+# Add root and script directories to sys.path
+# .gemini/skills/obsidian-tag-cleanup/scripts/analyze_tags.py -> parents[4] is the project root
+root_dir = Path(__file__).resolve().parents[4]
+sys.path.append(str(root_dir / "scripts"))
+# Also add the tag-cleanup scripts dir to path for other scripts to import TagAnalyzer
+sys.path.append(str(Path(__file__).resolve().parent))
 
 from collections import Counter
 from obsidian_client import ObsidianClient
