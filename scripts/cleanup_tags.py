@@ -16,6 +16,7 @@ class TagCleaner:
             'game-dev': 'game/dev',
             'life-pro-tips': 'life/tips',
             'relationship': 'life/people',
+            'lyrics/inspiration': 'music/lyrics',
         }
 
     def clean_content(self, content):

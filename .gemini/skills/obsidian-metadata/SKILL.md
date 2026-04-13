@@ -17,6 +17,7 @@ description: 规范化使用 Obsidian YAML Frontmatter (Properties)。当需要�
   tags:
     - game/design/theory
     - music/production
+    - music/lyrics
     - life/tips
     - life/people
     - status/inbox
