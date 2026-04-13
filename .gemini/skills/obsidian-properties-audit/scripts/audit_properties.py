@@ -1,8 +1,12 @@
 import os
 import re
 import yaml
+import sys
 from pathlib import Path
 from datetime import datetime
+
+# Add root scripts to sys.path to find obsidian_client
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent.parent / "scripts"))
 
 class PropertyAuditor:
     def __init__(self, vault_path=None):

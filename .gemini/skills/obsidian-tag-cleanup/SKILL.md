@@ -6,7 +6,7 @@ description: 分析并清理 Obsidian 库中的标签。包括获取所有标签
 # Obsidian Tag Cleanup (标签整理) 规范
 
 ## 核心流程
-1. **获取标签**：运行 `python scripts/analyze_tags.py` 获取库中所有标签及其出现频次。
+1. **获取标签**：运行 `python .gemini/skills/obsidian-tag-cleanup/scripts/analyze_tags.py` 获取库中所有标签及其出现频次。
 2. **语义分析**：
    - 识别拼写相近（如 `tag` vs `tags`）、同义词（如 `game-design` vs `gaming-theory`）或大小写差异的标签。
    - 对相似标签对进行 **0-10 分** 评分：
@@ -15,7 +15,7 @@ description: 分析并清理 Obsidian 库中的标签。包括获取所有标签
      - **7-9**: 极度相似，强烈建议合并
      - **10**: 完全等同或仅有微小拼写差异，必须合并
 3. **制定计划**：针对高分（7-10）标签对，提出“合并”、“重命名”或“删除”建议。
-4. **执行清理**：在用户确认后，使用 `replace` 或脚本批量更新 `.md` 文件。
+4. **执行清理**：在用户确认后，运行 `python .gemini/skills/obsidian-tag-cleanup/scripts/cleanup_tags.py`。
 
 ## 注意事项
 - **层级标签**：注意处理 `/` 分隔的层级标签（如 `game/theory` 与 `theory` 的关系）。

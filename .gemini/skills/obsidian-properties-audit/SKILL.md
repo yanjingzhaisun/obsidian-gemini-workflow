@@ -12,7 +12,7 @@ description: 自动审查并修复库中所有笔记的 YAML Properties。确保
 - **时间戳**：所有笔记必须包含 `date` 属性（ISO 8601 格式）。如果缺失，将自动使用文件的创建/修改时间填充。
 
 ## 核心流程
-1. **执行脚本**：运行 `python scripts/audit_properties.py`。
+1. **执行脚本**：运行 `python .gemini/skills/obsidian-properties-audit/scripts/audit_properties.py`。
 2. **自动检测与修复**：
    - 检查 `---` 之后是否有错误的连字或缺失的换行。
    - 解析 YAML。如果因存在不合法字符（如双链 `[[...]]` 包裹了 date）导致解析失败，脚本会尝试修复。

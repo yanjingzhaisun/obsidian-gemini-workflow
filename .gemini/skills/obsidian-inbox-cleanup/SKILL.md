@@ -11,7 +11,7 @@ description: 整理 Obsidian 的 inbox 文件夹。识别已标记为 status/per
 
 ## 核心流程
 1. **识别状态**：分析 `inbox/` 下所有 `.md` 文件的 YAML Frontmatter。
-2. **执行移动**：运行 `python scripts/move_permanent_notes.py`。
+2. **执行移动**：运行 `python .gemini/skills/obsidian-inbox-cleanup/scripts/move_permanent_notes.py`。
    - 脚本会自动检查带有 `status/permanent` 标签的文件。
    - 如果文件位于 `inbox/`，将其移动到 `zettlekasten/`。
 3. **冲突处理**：如果 `zettlekasten/` 已存在同名文件，脚本会跳过并发出警告，需人工介入重命名。

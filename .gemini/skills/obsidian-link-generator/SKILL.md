@@ -14,7 +14,7 @@ description: 自动分析库中所有 status/permanent 状态的笔记（排除 
 1. **收集节点**：扫描所有带有 `status/permanent` 标签且文件名不包含 MOC 且不带有 moc 标签的笔记，提取它们的标题作为“目标概念”。
 2. **全文分析**：读取每一篇符合上述条件的永久笔记内容。
 3. **自动链接**：如果在某篇笔记的内容中发现了“目标概念”的纯文本（且尚未被 `[[...]]` 包裹），则自动将其替换为双向链接。
-4. **执行**：运行 `python scripts/generate_links.py` 自动执行上述过程。
+4. **执行**：运行 `python .gemini/skills/obsidian-link-generator/scripts/generate_links.py` 自动执行上述过程。
 
 ## 注意事项
 - 短于 3 个字符的标题会被忽略，以防止常见词汇（如 "it", "to", "的"）被过度链接。

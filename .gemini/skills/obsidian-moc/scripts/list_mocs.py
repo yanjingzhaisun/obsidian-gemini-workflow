@@ -1,4 +1,10 @@
 import os
+import sys
+from pathlib import Path
+
+# Add root scripts to sys.path to find obsidian_client
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent.parent / "scripts"))
+
 from obsidian_client import ObsidianClient
 
 def list_mocs():
