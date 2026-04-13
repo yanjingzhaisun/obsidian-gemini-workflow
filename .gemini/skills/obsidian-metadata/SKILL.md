@@ -17,6 +17,8 @@ description: 规范化使用 Obsidian YAML Frontmatter (Properties)。当需要�
   tags:
     - game/design/theory
     - music/production
+    - life/tips
+    - life/people
     - status/inbox
   ```
 - `date`: 使用 {{date}}T{{time}} (ISO 8601标准格式)

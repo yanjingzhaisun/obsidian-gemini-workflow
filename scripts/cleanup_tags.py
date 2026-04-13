@@ -8,14 +8,14 @@ class TagCleaner:
         self.client = ObsidianClient(vault_path)
         self.vault_root = self.client.vault_path
         
-        # Define replacement map: {old_tag: new_tag}
-        # Supports regex-like logic for hierarchical roots
+        # Define replacement map: {old_root: new_root}
+        # This will match the beginning of a tag
         self.replacements = {
-            r'audio/engineering': 'music/production',
-            r'music/production': 'music/production', # Keep as is
-            r'game-design': 'game/design',
-            r'game-dev': 'game/dev',
-            # Add specific sub-tags if they don't follow simple root replacement
+            'audio/engineering': 'music/production',
+            'game-design': 'game/design',
+            'game-dev': 'game/dev',
+            'life-pro-tips': 'life/tips',
+            'relationship': 'life/people',
         }
 
     def clean_content(self, content):
@@ -28,40 +28,29 @@ class TagCleaner:
             inner = match.group(1)
             new_inner = inner
             
-            # Simple root replacements for YAML list items
-            # Example: - game-design/theory -> - game/design/theory
-            patterns = [
-                (r'-\s+game-design', '- game/design'),
-                (r'-\s+game-dev', '- game/dev'),
-                (r'-\s+audio/engineering', '- music/production'),
-            ]
-            
-            for old, new in patterns:
-                if re.search(old, new_inner):
-                    new_inner = re.sub(old, new, new_inner)
+            for old, new in self.replacements.items():
+                # Pattern for YAML list items: "- old/subtag" -> "- new/subtag"
+                # We use regex to ensure we only match the start of the tag after the dash
+                pattern = rf'(-\s+){re.escape(old)}'
+                if re.search(pattern, new_inner):
+                    new_inner = re.sub(pattern, rf'\1{new}', new_inner)
                     modified = True
             return f"---\n{new_inner}\n---"
 
         content = re.sub(r'^---\s*\n(.*?)\n---\s*\n', yaml_replacer, content, flags=re.DOTALL)
 
         # 2. Process Inline Tags (#tag)
-        # Avoid matching hex, etc.
         def inline_replacer(match):
             nonlocal modified
-            full_match = match.group(0) # #game-design/theory
-            tag_name = match.group(1)   # game-design/theory
+            full_match = match.group(0) # #old-tag/sub
+            tag_name = match.group(1)   # old-tag/sub
             
-            new_tag = tag_name
-            if tag_name.startswith('game-design'):
-                new_tag = tag_name.replace('game-design', 'game/design', 1)
-            elif tag_name.startswith('game-dev'):
-                new_tag = tag_name.replace('game-dev', 'game/dev', 1)
-            elif tag_name.startswith('audio/engineering'):
-                new_tag = tag_name.replace('audio/engineering', 'music/production', 1)
-            
-            if new_tag != tag_name:
-                modified = True
-                return f"#{new_tag}"
+            for old, new in self.replacements.items():
+                if tag_name == old or tag_name.startswith(old + '/'):
+                    new_tag = tag_name.replace(old, new, 1)
+                    if new_tag != tag_name:
+                        modified = True
+                        return f"#{new_tag}"
             return full_match
 
         content = re.sub(r'(?<!\w)#([a-zA-Z\u4e00-\u9fa5][\w\-/]*)', inline_replacer, content)

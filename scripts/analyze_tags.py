@@ -18,7 +18,9 @@ class TagAnalyzer:
                 content = f.read()
 
             # 1. YAML Frontmatter Tags
-            frontmatter_match = re.match(r'^---\s*\n(.*?)\n---\s*\n', content, re.DOTALL)
+            # More permissive search for frontmatter anywhere at the start (handling BOM)
+            # The closing '---' might be followed immediately by text instead of a newline.
+            frontmatter_match = re.search(r'---\s*\r?\n(.*?)\n---\s*', content, re.DOTALL)
             if frontmatter_match:
                 try:
                     data = yaml.safe_load(frontmatter_match.group(1))
@@ -55,11 +57,20 @@ class TagAnalyzer:
                     relative_path = full_path.relative_to(self.vault_root)
                     
                     file_tags = self.extract_tags_from_file(full_path)
+                    if not file_tags:
+                        # print(f"DEBUG: No tags found in {relative_path}")
+                        pass
+                    
                     for tag in file_tags:
                         tag_counts[tag] += 1
                     
                     if file_tags:
                         file_to_tags[str(relative_path)] = list(file_tags)
+                    else:
+                        # Check if it has any tags at all
+                        with open(full_path, 'r', encoding='utf-8') as f:
+                             if 'tags:' in f.read():
+                                 print(f"DEBUG: File has 'tags:' but none extracted: {relative_path}")
 
         return tag_counts, file_to_tags
 
